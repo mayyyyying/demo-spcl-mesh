@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: ${MICRO_SERVICE_NAME}
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+    kubernetes:
+      loadbalancer:
+        mode: service
+#        port-name: http-8080-8080
+      discovery:
+        enabled: true
+        all-namespaces: true
+      config:
+        enabled: true
+        enable-api: true
+#        sources:
+#        - name: ${MICRO_SERVICE_NAME}
+      ribbon:
+        mode: service
+  zipkin:
+    base-url: http://10.201.198.238:9411
+demo-provider-ribbon:
+  ribbon:
+    eureka:
+      enabled: false
+    listOfServers: http://demo-provider-ribbon.ym-kingdom:8080
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+feign:
+  okhttp:
+    enabled: true
+---
+spring:
+  profiles: local
+  zipkin:
+    enabled: false
+  cloud:
+    kubernetes:
+      client:
+        master-url: https://10.211.55.3:8443
+        trust-certs: true
+        password: eyJhbGciOiJSUzI1NiIsImtpZCI6Im5Camgwc0lEb3lYM0VÍ5QTBlOEZKRF9RM0NzOGNSUE52VU84dTFibzZzV2cifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImRlZmF1bHQtdG9rZW4tZzY0OTciLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZGVmYXVsdCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6ImJmNGQxN2Q3LTYzOWQtNGE3ZC1iODFiLWJlMmRkYjRiNDBiNiIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmRlZmF1bHQifQ.QmQ0E_SbU4OGshX-Phqyh8sD-qbJ_L9oViqfni4mg6rVCp7Ref39_wOfEp9yFjmUJitWi4KJ0rcTOWLTqTkFSOdcmdWDFaKQ_br3_3-NDFmT41xJqYsx0DElcIoPgDmGYlPf780uTbbZJJtSBSrYPLYWBzskHJizGAb1m53KWIoNSUYRihzJJogvZeTOlkK347x8DiHX9DlhKekLx8C3lZltlhEhQU88-vBHfgVTdZ_TDn8pf4Io6x-S412-TmZY1NhPBHIc_54Q1_rwfapvtwpHopk3FobbSSE68LlkleHJ9f5ZkyknrkDX4MWW-dc7inrrQmVkqszgf9TljLcCjg
+classification:
+  - value: test
+    condition: request.url_path == '/demo/ping' && request.method == 'GET'
