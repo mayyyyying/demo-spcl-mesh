@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 public interface ProviderWebFluxClient {
     @RequestMapping(method = RequestMethod.GET,path = "/demo/webclient/ping")
-    String ping();//
+    String ping();
 
     @RequestMapping(method = RequestMethod.POST,path = "/demo/webclient/ping")
     String postPing();
